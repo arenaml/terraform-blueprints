@@ -81,16 +81,26 @@ output "configure_kubectl" {
   value       = module.eks.configure_kubectl
 }
 
-# output "alb_dns_name" {
-#   description = "Metaflow UI DNS name"
-#   value       = module.metaflow.alb_dns_name
-# }
+#---------------------------------------------------------------
+# S3
+#---------------------------------------------------------------
 
-# ### IaM Outputs ###
-# output "iam_s3_policy_arn" {
-#   value = module.eks.iam_s3_policy_arn
-# }
+output "s3_bucket_id" {
+  value = module.s3.id
+}
 
-# output "iam_s3_policy_name" {
-#   value = module.eks.iam_s3_policy_name
-# }
+output "s3_bucket_arn" {
+  value = module.s3.arn
+}
+
+#---------------------------------------------------------------
+# IAM S3 Access
+#---------------------------------------------------------------
+
+output "aws_iam_policy_arn" {
+  value = module.iam-s3-access.arn
+}
+
+output "aws_iam_policy_name" {
+  value = module.iam-s3-access.name
+}
