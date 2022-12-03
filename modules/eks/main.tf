@@ -83,9 +83,9 @@ module "eks_blueprints_kubernetes_addons" {
   enable_cluster_autoscaler    = true
   enable_kube_prometheus_stack = true
   enable_external_secrets      = true
-  enable_ingress_nginx         = true
   enable_cert_manager          = true
   enable_nvidia_device_plugin  = true
+  # enable_ingress_nginx         = true
   #   enable_metrics_server               = true
   #   enable_aws_for_fluentbit            = true
 }
