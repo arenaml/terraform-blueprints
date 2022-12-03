@@ -34,19 +34,36 @@ module "eks" {
   tags               = local.tags
 }
 
-## TODO
-# module "iam" {
-#   source         = "./../iam"
-#   cluster_name   = var.cluster_name
-#   iam_role_names = module.eks_blueprints.managed_node_group_iam_role_names
-# }
+module "s3" {
+  source = "./modules/s3"
+  name   = "arena"
+}
 
-# module "metaflow" {
-#   source         = "./modules/metaflow"
-#   vpc_id         = module.vpc.vpc_id
-#   subnet1_id     = module.vpc.private_subnets[0]
-#   subnet2_id     = module.vpc.private_subnets[1]
-#   vpc_cidr_block = module.vpc.vpc_cidr_block
-#   cluster_name   = local.cluster_name
-#   tags           = local.tags
-# }
+module "iam-s3-access" {
+  source         = "./modules/iam-s3-access"
+  cluster_name   = local.cluster_name
+  iam_role_names = module.eks.managed_node_group_iam_role_names
+  s3_bucket_arn  = module.s3.arn
+}
+
+module "secrets-manager" {
+  source = "./modules/secrets-manager"
+  name   = "arena"
+}
+
+module "rds" {
+  source     = "./modules/rds"
+  name       = "arena-rds"
+  username   = module.secrets-manager.secret-rds-username
+  password   = module.secrets-manager.secret-rds-password
+  db_name    = module.secrets-manager.secret-rds-db-name
+  port       = module.secrets-manager.secret-rds-port
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.public_subnets
+  tags       = local.tags
+}
+
+module "argo" {
+  source         = "./modules/argo"
+  s3_bucket_name = module.s3.id
+}
