@@ -1,3 +1,7 @@
+output "secret-name" {
+  value = local.secret_name
+}
+
 output "secret-rds-username" {
   value     = local.secrets["${var.name}-rds-username"]
   sensitive = true

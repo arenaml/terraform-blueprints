@@ -4,6 +4,10 @@ resource "random_password" "this" {
   # override_special = "!?$"
 }
 
+resource "random_id" "this" {
+  byte_length = 8
+}
+
 locals {
   secrets = {
     "${var.name}-rds-username" = "postgres"
@@ -11,4 +15,6 @@ locals {
     "${var.name}-rds-db-name"  = "${var.name}"
     "${var.name}-rds-port"     = 5432
   }
+
+  secret_name = "${var.name}-secrets-${random_id.this.hex}"
 }

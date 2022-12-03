@@ -1,5 +1,5 @@
 resource "aws_secretsmanager_secret" "this" {
-  name = "${var.name}-secrets"
+  name = local.secret_name
 }
 
 resource "aws_secretsmanager_secret_version" "this" {
