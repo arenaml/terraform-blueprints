@@ -67,3 +67,8 @@ module "argo" {
   source         = "./modules/argo"
   s3_bucket_name = module.s3.id
 }
+
+module "ecr-landing-page" {
+  source = "./modules/ecr"
+  name   = "arena/landing-page"
+}

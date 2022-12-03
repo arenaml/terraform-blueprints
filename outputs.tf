@@ -104,3 +104,22 @@ output "aws_iam_policy_arn" {
 output "aws_iam_policy_name" {
   value = module.iam-s3-access.name
 }
+
+#---------------------------------------------------------------
+# ECR
+#---------------------------------------------------------------
+
+output "ecr_landing_page_repository_url" {
+  value       = module.ecr-landing-page.repository_url
+  description = "The URL of the landing page repository (in the form aws_account_id.dkr.ecr.region.amazonaws.com/repositoryName)"
+}
+
+output "ecr_landing_page_arn" {
+  value       = module.ecr-landing-page.arn
+  description = "Full ARN of the landing page repository"
+}
+
+output "ecr_landing_page_registry_id" {
+  value       = module.ecr-landing-page.registry_id
+  description = "The registry ID where the landing page repository was created"
+}
