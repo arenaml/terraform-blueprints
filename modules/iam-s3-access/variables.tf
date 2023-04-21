@@ -8,7 +8,7 @@ variable "iam_role_names" {
   type        = list(string)
 }
 
-variable "s3_bucket_arn" {
-  description = "ARN of the S3 bucket for which to grant access to"
-  type        = string
+variable "s3_bucket_arns" {
+  description = "List of ARNs of the S3 buckets for which to grant access to"
+  type        = list(string)
 }

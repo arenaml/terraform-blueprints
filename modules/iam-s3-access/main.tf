@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "s3" {
       "kms:*",
     ]
 
-    resources = [var.s3_bucket_arn]
+    resources = var.s3_bucket_arns
   }
 }
 
