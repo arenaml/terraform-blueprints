@@ -34,39 +34,41 @@ module "eks" {
   tags               = local.tags
 }
 
-module "s3" {
-  source = "./modules/s3"
-  name   = "arena"
+module "s3-mlflow" {
+  source     = "./modules/s3"
+  name       = "arena-mlflow-artifacts"
+  versioning = true
 }
 
 module "iam-s3-access" {
   source         = "./modules/iam-s3-access"
   cluster_name   = local.cluster_name
   iam_role_names = module.eks.managed_node_group_iam_role_names
-  s3_bucket_arn  = module.s3.arn
+  s3_bucket_arns = [module.s3-mlflow.arn]
 }
 
-module "secrets-manager" {
-  source = "./modules/secrets-manager"
-  name   = "arena"
+module "secrets-manager-rds-mlflow" {
+  source  = "./modules/secrets-manager"
+  name    = "arena-rds-mlflow-secrets-${random_id.this.hex}"
+  secrets = local.rds_mlflow_secrets
 }
 
-module "rds" {
+module "rds-mlflow" {
   source     = "./modules/rds"
   name       = "arena-rds"
-  username   = module.secrets-manager.secret-rds-username
-  password   = module.secrets-manager.secret-rds-password
-  db_name    = module.secrets-manager.secret-rds-db-name
-  port       = module.secrets-manager.secret-rds-port
+  username   = local.rds_mlflow_secrets.username
+  password   = local.rds_mlflow_secrets.password
+  db_name    = local.rds_mlflow_secrets.db_name
+  port       = local.rds_mlflow_secrets.port
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.public_subnets
   tags       = local.tags
 }
 
-module "argo" {
-  source         = "./modules/argo"
-  s3_bucket_name = module.s3.id
-}
+# module "argo" {
+#   source         = "./modules/argo"
+#   s3_bucket_name = module.s3.id
+# }
 
 module "ecr-landing-page" {
   source = "./modules/ecr"

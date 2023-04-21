@@ -1,3 +1,7 @@
+output "region" {
+  value = var.region
+}
+
 #---------------------------------------------------------------
 # VPC
 #---------------------------------------------------------------
@@ -85,12 +89,12 @@ output "configure_kubectl" {
 # S3
 #---------------------------------------------------------------
 
-output "s3_bucket_id" {
-  value = module.s3.id
+output "s3_bucket_i_mlflow" {
+  value = module.s3-mlflow.id
 }
 
-output "s3_bucket_arn" {
-  value = module.s3.arn
+output "s3_bucket_arn_mlflow" {
+  value = module.s3-mlflow.arn
 }
 
 #---------------------------------------------------------------
@@ -110,7 +114,7 @@ output "aws_iam_policy_name" {
 #---------------------------------------------------------------
 
 output "secrets_manager_secret_name" {
-  value = module.secrets-manager.secret-name
+  value = module.secrets-manager-rds-mlflow.secret-name
 }
 
 #---------------------------------------------------------------

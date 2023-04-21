@@ -8,7 +8,26 @@ locals {
   tags = {
     managedBy  = "terraform"
     Blueprint  = local.cluster_name
-    GithubRepo = "github.com/aws-ia/terraform-aws-eks-blueprints"
+    GithubRepo = "github.com/arenaml/terraform-blueprints"
     app        = "arena"
+  }
+}
+
+resource "random_password" "rds" {
+  length  = 16
+  special = false
+  # override_special = "!?$"
+}
+
+resource "random_id" "secrets_manager" {
+  byte_length = 8
+}
+
+locals {
+  rds_mlflow_secrets = {
+    username = "postgres"
+    password = random_password.rds.result
+    db_name  = "mlflow"
+    port     = 5432
   }
 }
