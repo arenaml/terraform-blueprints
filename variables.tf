@@ -9,9 +9,3 @@ variable "profile" {
   type        = string
   default     = "personal"
 }
-
-# variable "worker_iam_policy" {
-#   description = "IAM policy ARN for k8s workers"
-#   type        = string
-#   default     = aws_iam_policy.default_node.arn
-# }
